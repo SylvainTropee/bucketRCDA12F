@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-    @apply bg-blue-300 text-white text-2xl
+    @apply bg-black text-white text-2xl
 }
 
 img {

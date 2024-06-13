@@ -2,5 +2,9 @@
 
 {% block body %}
     <h2>Détail d'un souhait !</h2>
+
+    <h3>{{ wish.title }}</h3>
+    <p><i>Créé par {{ wish.author }} le {{ wish.dateCreated | date("Y-m-d") }}</i></p>
+    <div>{{ wish.description | nl2br }}</div>
 {% endblock %}
 
