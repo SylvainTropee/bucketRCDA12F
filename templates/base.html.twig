@@ -26,6 +26,13 @@
             <div>Bucket-List</div>
         </div>
         {% include 'menu/nav.html.twig' %}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
     </header>
     <main>
         {% block body %}{% endblock %}
