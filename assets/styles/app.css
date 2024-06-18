@@ -35,7 +35,7 @@ label{
     @apply block
 }
 
-input, textarea{
+input, textarea, select{
     @apply text-black w-2/3
 }
 

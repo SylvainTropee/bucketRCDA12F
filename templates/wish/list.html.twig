@@ -6,7 +6,7 @@
     {% for wish in wishes %}
         <div class="border border-amber-200 rounded-2xl mb-2 p-2 hover:bg-cyan-300">
             <a href="{{ path('wish_detail', {'id': wish.id}) }}">
-                <p>{{ wish.title }}</p>
+                <p>{{ wish.title }} - {{ wish.category.name }}</p>
             </a>
 
         </div>

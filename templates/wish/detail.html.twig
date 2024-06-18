@@ -10,7 +10,7 @@
         </div>
         <card class="p-4 border border-amber-300 rounded-2xl m-3">
             <h3>{{ wish.title }}</h3>
-            <p class="mt-4 mb-4"><i>Créé par {{ wish.author }} le {{ wish.dateCreated | date("Y-m-d") }}</i></p>
+            <p class="mt-4 mb-4"><i>Créé par {{ wish.author }} le {{ wish.dateCreated | date("Y-m-d") }} - {{ wish.category }}</i></p>
             <div>{{ wish.description | nl2br }}</div>
         </card>
     </div>
