@@ -35,6 +35,10 @@ label{
     @apply block
 }
 
+input{
+    @apply text-black
+}
+
 
 /*body {*/
 /*    background-color: cornflowerblue;*/

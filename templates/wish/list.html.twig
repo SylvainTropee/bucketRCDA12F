@@ -1,12 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2>Liste de souhait</h2>
+    <h2 class="mb-3 p-2"> Liste de souhait</h2>
 
     {% for wish in wishes %}
-        <a href="{{ path('wish_detail', {'id': wish.id}) }}">
-            <p>{{ wish.title }}</p>
-        </a>
+        <div class="border border-amber-200 rounded-2xl mb-2 p-2 hover:bg-cyan-300">
+            <a href="{{ path('wish_detail', {'id': wish.id}) }}">
+                <p>{{ wish.title }}</p>
+            </a>
+
+        </div>
     {% endfor %}
 
 {% endblock %}
