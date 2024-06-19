@@ -6,11 +6,17 @@
 
         <h2>Détail d'un souhait !</h2>
         <div class="flex justify-end">
-           <a class="button" href="{{ path('wish_update', {'id': wish.id }) }}">Modifier</a>
+            {% if app.user == wish.user %}
+                <a class="button" href="{{ path('wish_update', {'id': wish.id }) }}">Modifier</a>
+            {% endif %}
+            {% if app.user == wish.user or is_granted('ROLE_ADMIN') %}
+                <a class="button" href="{{ path('wish_delete', {'id': wish.id }) }}">Supprimer</a>
+            {% endif %}
         </div>
         <card class="p-4 border border-amber-300 rounded-2xl m-3">
             <h3>{{ wish.title }}</h3>
-            <p class="mt-4 mb-4"><i>Créé par {{ wish.author }} le {{ wish.dateCreated | date("Y-m-d") }} - {{ wish.category }}</i></p>
+            <p class="mt-4 mb-4"><i>Créé par {{ wish.user.username }} le {{ wish.dateCreated | date("Y-m-d") }}
+                    - {{ wish.category }}</i></p>
             <div>{{ wish.description | nl2br }}</div>
         </card>
     </div>

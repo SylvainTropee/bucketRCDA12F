@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Wish;
 use App\Form\WishType;
 use App\Repository\WishRepository;
@@ -50,12 +51,21 @@ class WishController extends AbstractController
         WishRepository         $wishRepository,
         int                    $id = null): Response
     {
-        if($id){
+        if ($id) {
             $wish = $wishRepository->find($id);
-        }else{
+            if ($this->getUser() != $wish->getUser()) {
+                throw $this->createAccessDeniedException('Not allowed !');
+            }
+        } else {
             $wish = new Wish();
             $wish->setDateCreated(new \DateTime());
             $wish->setPublished(true);
+
+            /**
+             * @var User $user
+             */
+            $user = $this->getUser();
+            $wish->setUser($user);
         }
 
         $wishForm = $this->createForm(WishType::class, $wish);
@@ -73,6 +83,26 @@ class WishController extends AbstractController
         return $this->render('wish/create.html.twig', [
             'wishForm' => $wishForm
         ]);
+    }
+
+    #[Route('/delete/{id}', name: "delete", requirements: ['id' => '\d+'])]
+    public function delete(
+        int                    $id,
+        WishRepository         $wishRepository,
+        EntityManagerInterface $entityManager): Response
+    {
+
+        $wish = $wishRepository->find($id);
+
+        if ($this->getUser() != $wish->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Not allowed !');
+        }
+
+        $entityManager->remove($wish);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Wish deleted !');
+        return $this->redirectToRoute('wish_list');
     }
 
 

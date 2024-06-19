@@ -4,6 +4,12 @@
         <li><a href="{{ path('main_home') }}">Home</a></li>
         <li><a href="{{ path('main_about_us') }}">About Us</a></li>
         <li><a href="{{ path('wish_list') }}">Wish List</a></li>
-        <li><a href="{{ path('wish_create') }}">Add a wish</a></li>
+        {% if app.user %}
+            <li><a href="{{ path('wish_create') }}">Add a wish</a></li>
+            <li><a href="{{ path('app_logout') }}">Sign out</a></li>
+        {% else %}
+            <li><a href="{{ path('app_login') }}">Sign in</a></li>
+            <li><a href="{{ path('app_register') }}">Register</a></li>
+        {% endif %}
     </ul>
 </nav>
