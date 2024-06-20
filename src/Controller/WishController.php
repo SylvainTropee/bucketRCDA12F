@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Wish;
 use App\Form\WishType;
 use App\Repository\WishRepository;
+use App\Services\Censurator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,6 +50,7 @@ class WishController extends AbstractController
         Request                $request,
         EntityManagerInterface $entityManager,
         WishRepository         $wishRepository,
+        Censurator             $censurator,
         int                    $id = null): Response
     {
         if ($id) {
@@ -74,6 +76,10 @@ class WishController extends AbstractController
 
         if ($wishForm->isSubmitted() && $wishForm->isValid()) {
             //je set les éléments non gérables par l'utilisateur
+            //utilisation du service de modération
+            $wish->setDescription($censurator->purify($wish->getDescription()));
+            $wish->setTitle($censurator->purify($wish->getTitle()));
+
             $entityManager->persist($wish);
             $entityManager->flush();
 
@@ -85,7 +91,8 @@ class WishController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{id}', name: "delete", requirements: ['id' => '\d+'])]
+    #[
+        Route('/delete/{id}', name: "delete", requirements: ['id' => '\d+'])]
     public function delete(
         int                    $id,
         WishRepository         $wishRepository,
@@ -94,7 +101,7 @@ class WishController extends AbstractController
 
         $wish = $wishRepository->find($id);
 
-        if ($this->getUser() != $wish->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+        if ($this->getUser() !== $wish->getUser() && !$this->isGranted('ROLE_ADMIN')) {
             throw $this->createAccessDeniedException('Not allowed !');
         }
 
