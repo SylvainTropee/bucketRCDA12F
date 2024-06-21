@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Events !</h2>
+    {{ form(eventForm) }}
+    {% for event in events %}
+
+{#        <div class="border border-amber-200 rounded-2xl mb-2 p-2 hover:bg-cyan-300 bg-[url('{{ event.fields.originalimage }}')]">#}
+        <div class="border border-amber-200 rounded-2xl mb-2 p-2 hover:bg-cyan-300">
+            <div>{{ event.fields.title_fr }}</div>
+            <div>{{ event.fields.canonicalurl }}</div>
+            <div>{{ event.fields.daterange_fr }}</div>
+{#            {% if event.fields.originalimage %}#}
+{#                <div><img src="{{ event.fields.originalimage }}" alt="{{ event.fields.title_fr }}"></div>#}
+{#            {% endif %}#}
+            <div>{{ event.fields.location_name }}</div>
+            <div>{{ event.fields.location_city }}</div>
+            <div>{{ event.fields.description_fr | raw }}</div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
